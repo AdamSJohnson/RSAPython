@@ -1,0 +1,14 @@
+CIS 475 Introduction to Cryptography. Assignment 3 (Spring 2018)
+For this assignment, provide your own implementation of the RSA
+crypto system in any programming language of your choice.
+Allow the user a freedom to choose the bit-length for their
+prime numbers. Your system should encrypt only single ASCII characters
+from text files without salting.
+Your program should take four input parameters: a plaintext filename,
+a ciphertext filename, and a filename for the decrypted text, and
+a bit-length parameter. The ciphertext should be an ASCII file that
+is a sequence of numbers separated by newlines. Once you have a working program, encrypt this
+text file using your own seperate RSA keys and save the cipher in a text file named RSAcipher.txt
+For the submission, submit RSAcipher.txt along with the RSA modulus and the
+secret exponent required to decrypt the file so I can decrypt it properly. The due date for
+this assignment is March 5.
