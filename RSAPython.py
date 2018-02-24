@@ -152,15 +152,15 @@ def run():
 	#   bit length
 
 	print('Select one:')
-	choice = input('1. Encrypt a file\n2. Decrypt a file with key file\n3. Decrypt With input values\n')
+	choice = input('1. Encrypt a file no keys\n2. Decrypt a file with key file\n3. Decrypt With input values\n4. Encrypt a file with keys\n')
 	good = False
-	if choice == '1' or choice == '2' or choice == '3':
+	if choice == '1' or choice == '2' or choice == '3' or choice == '4':
 		good = True
 	
 	while not good:
 		print('Invalid Choice')
 		print('Select one:')
-		choice = input('1. Encrypt a file\n2. Decrypt a file\n3. Decrypt With input values\n')
+		choice = input('1. Encrypt a file no keys\n2. Decrypt a file with key file\n3. Decrypt With input values\n4. Encrypt a file with keys\n')
 		if choice == '1' or choice == '2':
 			good = True
 	if choice == '1':
@@ -205,7 +205,7 @@ def run():
 		os.system('cls' if os.name == 'nt' else 'clear')
 		print('ENCRYPTEDDDDDDDDD')
 	elif choice == '2':
-		print('This method relies on the .key file which must be the form {file to decrypt}.key')
+		
 		#run decrypt functionality
 		v = True
 		while v:
@@ -215,10 +215,17 @@ def run():
 			else:
 				print('Provide a real File please.')
 
+		v = True
+		while v:
+			key_file = input('Enter Key File Name: ')
+			if os.path.isfile(key_file):
+				v = False
+			else:
+				print('Provide a real File please.')
 		destination = input('Enter Destination Name: ')
 		keys = []
 
-		key_file = open(file_to_decrypt+'.keys', 'r')
+		key_file = open(key_file, 'r')
 		for line in key_file:
 			keys.append(line.rstrip())
 		#print(keys)
@@ -241,7 +248,7 @@ def run():
 			q_1 = p + q_1
 		ap = q*q_1
 		aq = p*p_1
-		print(d)
+		#print(d)
 		strn = ''
 		for line in decrypt_this:
 			#os.system('cls' if os.name == 'nt' else 'clear')
@@ -289,6 +296,38 @@ def run():
 			print(strn)
 			strn = strn + chr(decrypt(int(line.rstrip()), d, n))
 		decrypt_to.write(strn)
+	elif choice == '4':
+		#run encrypt functionality
+		v = True
+		while v:
+			file_to_encrypt = input('Enter File To Encrypt: ')
+			if os.path.isfile(file_to_encrypt):
+				v = False
+			else:
+				print('Provide a real File please.')
+
+		destination = input('Enter Destination Name: ')
+		v = True
+		while v:
+			key_file = input('Enter key file name: ')
+			if os.path.isfile(key_file):
+				v = False
+			else:
+				print('Provide a real File please.')
+		keys = []
+		kf = open(key_file, 'r')
+		
+		for line in kf:
+			keys.append(int(line.rstrip()))
+
+		print(keys)
+		source_file = open(file_to_encrypt, 'r')
+		dest_file = open(destination, 'w')
+		for line in source_file:
+			for ch in line:
+				dest_file.write(str(encrypt(ord(ch), keys[1], keys[0])) + '\n')
+		os.system('cls' if os.name == 'nt' else 'clear')
+		print('ENCRYPTEDDDDDDDDD')
 
 
 if __name__ == "__main__":
@@ -299,4 +338,3 @@ if __name__ == "__main__":
 		except KeyboardInterrupt:
 			print("QUITTING")
 			control = False
-	
