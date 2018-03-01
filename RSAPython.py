@@ -33,11 +33,11 @@ def isprime(n):
 			return 0
 	return 1
 
-#cool this one also works
-#Generates a tuple of primes n_bits long
-def generate_primes(n_bits):
+#I wanted threads and this is what I had to do
+#    Deal
+#With     it
+def prime_maker(n_bits, results, index):
 	padder = 1 << n_bits - 1
-
 	p = random.getrandbits(n_bits)
 
 	# p might not have n bits so we just want to make sure the most signigicant bit is a 1
@@ -54,23 +54,29 @@ def generate_primes(n_bits):
 		# bit-wiseOR p with 1
 		p = p | padder
 		p = p | 1
+	results[index] = p
+	return p
 
-	q = random.getrandbits(n_bits)
 
-	# q might not have n bits so we just want to make sure the most signigicant bit is a 1
-	# bit-wiseOR p with (1 << n_bits - 1)
-	# bit-wiseOR p with 1
-	q = q | padder
-	q = q | 1
+#cool this one also works
+#Generates a tuple of primes n_bits long
+#Look bear with me I wanted threads and I got em working
+from threading import Thread
+def generate_primes(n_bits):
 
-	#keep generating primes until we win
-	while not isprime(q):
-		q = random.getrandbits(n_bits)
-		# q might not have n bits so we just want to make sure the most signigicant bit is a 1
-		# bit-wiseOR q with (1 << n_bits - 1)
-		# bit-wiseOR q with 1
-		q = q | padder
-		q = q | 1
+	threads = [None] * 2
+
+	results = [None] * 2
+
+	for i in range(len(threads)):
+		print('Spinning up thread ', i)
+		threads[i] = Thread(target=prime_maker, args=(n_bits, results, i))
+		threads[i].start()
+	for i in range(len(threads)):
+		threads[i].join()
+	p = results[0]
+	q = results[1]
+
 	return (p, q)
 
 #I would think this one works it just simplifies multiplying numbers
@@ -202,9 +208,11 @@ def run():
 		key_file.write(str(keys[2]) +'\n')
 		key_file.write(str(keys[3]) +'\n')
 		key_file.write(str(keys[4]) +'\n')
+		strn = ''
 		for line in source_file:
 			for ch in line:
-				dest_file.write(str(encrypt(ord(ch), keys[1], keys[0])) + '\n')
+				strn = strn + (str(encrypt(ord(ch), keys[1], keys[0])) + '\n')
+		dest_file.write(strn)
 		os.system('cls' if os.name == 'nt' else 'clear')
 		print('ENCRYPTEDDDDDDDDD')
 	elif choice == '2':
