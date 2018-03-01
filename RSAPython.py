@@ -200,7 +200,7 @@ def run():
 		print(keys)
 
 		source_file = open(file_to_encrypt, 'r')
-		dest_file = open(destination, 'w')
+		
 		key_file = open(destination+'.keys','w')
 
 		key_file.write(str(keys[0]) +'\n')
@@ -212,8 +212,14 @@ def run():
 		for line in source_file:
 			for ch in line:
 				strn = strn + (str(encrypt(ord(ch), keys[1], keys[0])) + '\n')
-		dest_file.write(strn)
+		
 		os.system('cls' if os.name == 'nt' else 'clear')
+		source_file.close()
+		dest_file = open(destination, 'w')
+		dest_file.write(strn)
+		dest_file.close()
+		key_file.close()
+
 		print('ENCRYPTEDDDDDDDDD')
 	elif choice == '2':
 		
@@ -241,7 +247,7 @@ def run():
 			keys.append(line.rstrip())
 		#print(keys)
 		decrypt_this = open(file_to_decrypt, 'r')
-		decrypt_to = open(destination, 'w')
+		
 		n = int(keys[0])
 		#print(n)
 
@@ -266,7 +272,13 @@ def run():
 			#print(strn)
 			#def decrypt(m, ap, aq, d, n, p, q):
 			strn = strn + chr(decrypt(int(line.rstrip()), ap, aq, d, n, p, q))
+		decrypt_this.close()
+
+		decrypt_to = open(destination, 'w')
 		decrypt_to.write(strn)
+		decrypt_to.close()
+		key_file.close()
+		os.system('cls' if os.name == 'nt' else 'clear')
 		print('DECRYPTEEDDDDDD')
 	elif choice == '3':
 		print('This relies on knowing n and d\nThis Decryption runs slower since alphas are not used.')
@@ -301,12 +313,16 @@ def run():
 			v = False
 
 		decrypt_this = open(file_to_decrypt, 'r')
-		decrypt_to = open(destination, 'w')
+		
 		for line in decrypt_this:
 			os.system('cls' if os.name == 'nt' else 'clear')
 			print(strn)
 			strn = strn + chr(decrypt(int(line.rstrip()), d, n))
+		decrypt_to = open(destination, 'w')
 		decrypt_to.write(strn)
+		decrypt_this.close()
+		decrypt_to.close()
+		os.system('cls' if os.name == 'nt' else 'clear')
 	elif choice == '4':
 		#run encrypt functionality
 		v = True
@@ -330,14 +346,18 @@ def run():
 		
 		for line in kf:
 			keys.append(int(line.rstrip()))
-
+		kf.close()
 		print(keys)
 		source_file = open(file_to_encrypt, 'r')
-		dest_file = open(destination, 'w')
+		strn = ''
 		for line in source_file:
 			for ch in line:
-				dest_file.write(str(encrypt(ord(ch), keys[1], keys[0])) + '\n')
+				strn = strn + str(encrypt(ord(ch), keys[1], keys[0])) + '\n'
 		os.system('cls' if os.name == 'nt' else 'clear')
+		dest_file = open(destination, 'w')
+		dest_file.write(strn)
+		source_file.close()
+		dest_file.close()
 		print('ENCRYPTEDDDDDDDDD')
 
 
