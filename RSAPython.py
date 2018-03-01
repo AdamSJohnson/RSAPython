@@ -13,12 +13,20 @@ def egcd(a,b):
     # Extended Euclidean Algorithm
     # returns x, y, gcd(a,b) such that ax + by = gcd(a,b)
     #
+
+    #initialize our x vals
     u, u1 = 1, 0
+    #initialize our y vals
     v, v1 = 0, 1
+
+    #keep going until we get a remainder of 0
     while b:
+        #get our integer quotient 
         q = a // b
+        #update our x and y vals
         u, u1 = u1, u - q * u1
         v, v1 = v1, v - q * v1
+        #replace a with b and b with a%b
         a, b = b, a - q * b
     return u, v, a
 
@@ -28,14 +36,20 @@ def isprime(n):
     #pick 'a' such that 'a' is an element of {2,..,n-1} 100 times
     # probably too much checking  ¯\_(ツ)_/¯
     for q in range(100):
+        #slick lets pick a random a in our range
         a = random.randint(2,n-1)
+        #even slicker is if this fn evaluates to 1
         if pow(a, n - 1, n) != 1:
+            #awman tfw not prime
             return 0
+    #good enough this is probably prime
     return 1
 
 #I wanted threads and this is what I had to do
 #    Deal
-#With     it
+#Wi
+#   th     i
+#          t
 def prime_maker(n_bits, results, index):
     padder = 1 << n_bits - 1
     p = random.getrandbits(n_bits)
@@ -63,17 +77,19 @@ def prime_maker(n_bits, results, index):
 #Look bear with me I wanted threads and I got em working
 from threading import Thread
 def generate_primes(n_bits):
-
+    #Okay so we want to keep all of our threads in a nice list
     threads = [None] * 2
-
+    #dump our results into this array
     results = [None] * 2
-
+    #SPIN UP THOSE THREADS
     for i in range(len(threads)):
         print('Spinning up thread ', i)
         threads[i] = Thread(target=prime_maker, args=(n_bits, results, i))
         threads[i].start()
+    #now we wait for the threads to finish
     for i in range(len(threads)):
         threads[i].join()
+    #yea we got two primes now yay
     p = results[0]
     q = results[1]
 
@@ -94,6 +110,7 @@ def gen_e(phi, n_bits):
     #   check that gcd and repeat if it isn't 1
     padder = 1 << n_bits - 1
     padder = padder - 1
+    padder = padder & 1 << n_bits - 2
     e = random.randint(padder, phi - 1)
     #e needs to be odd    
     e = e | 1
