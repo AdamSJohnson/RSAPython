@@ -57,7 +57,7 @@ def generate_primes(n_bits):
 
 	q = random.getrandbits(n_bits)
 
-	# p might not have n bits so we just want to make sure the most signigicant bit is a 1
+	# q might not have n bits so we just want to make sure the most signigicant bit is a 1
 	# bit-wiseOR p with (1 << n_bits - 1)
 	# bit-wiseOR p with 1
 	q = q | padder
@@ -66,9 +66,9 @@ def generate_primes(n_bits):
 	#keep generating primes until we win
 	while not isprime(q):
 		q = random.getrandbits(n_bits)
-		# p might not have n bits so we just want to make sure the most signigicant bit is a 1
-		# bit-wiseOR p with (1 << n_bits - 1)
-		# bit-wiseOR p with 1
+		# q might not have n bits so we just want to make sure the most signigicant bit is a 1
+		# bit-wiseOR q with (1 << n_bits - 1)
+		# bit-wiseOR q with 1
 		q = q | padder
 		q = q | 1
 	return (p, q)
