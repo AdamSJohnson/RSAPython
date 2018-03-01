@@ -144,6 +144,9 @@ def decrypt(m, ap, aq, d, n, p, q):
 
 
 import os
+'''
+Not so much documentation here 
+'''
 def run():
 	#we need to collect some information
 	#   plaintext filename
